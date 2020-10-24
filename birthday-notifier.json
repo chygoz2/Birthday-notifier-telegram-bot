@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "birthday-notifier-293506",
+  "private_key_id": "398818ab50467d1e3132346f81d4d31cb7dd34c8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCsyT+7aqpFOf1s\nK0dBXrMrR1k/gMlcRPCkMRd1uyLIfb7UCoJaQiBaC6iS+n3Q+8ZVi8srQDru4Scq\ncQDPgmdtt1mlpm/RQR1kG5Uoevxnc3HNCCbDASSNSa8KUYwz/Sly3yWvHQJSJhKp\nn/bFifjV7pWn9BzA8TC+KTlWdWbjVUfYSiwiQa1YkdkuaVCw3t73aMDtdADEdp9d\n3NE3uibPPvT3CCFokGMc/iy54EaCl047vpEgw9c/V0Mg1JTrHHyyS0yO8LCtNTRf\ngF40KTy2Hm369MRPoTO/uqPLcAJhtLYSExjA3nbMpm6rcfTn3O7j0BLJJcwZsCSd\nqMavNUY9AgMBAAECggEAA91mM3ZoaRnUi+ka6VYphU1jAcCLIH56myhC8/3z16QN\nEu1KQE5sLqobQvBfRJUBI8mM9EJ19FZtG8NWfI3C66lsfqqj+ScESzMyaVWjlC/O\nSu2vVPDPWmlcb4tmlVoeECT4JjwsoLLxJhdUe9OBJqM1I0IwAMvUUTNBsP1OyBpx\n4FydKAhra2cyi5AI52N7frNacTqeX0MLhhtj81LRSpGjTHHdDWLY/3P3Aj+fvWS7\noG6K6bT/fwPf0JmaXNoL/RQqVrTlvl0P/xjionUuLLv8x4TJf8EjhJlLlkMwrQ4G\nHPNr4nlFh+11otw7br/tsXAZV3w7NDyB6HG7xWfMyQKBgQDkZTNRR5CMyziU49a5\nZhoRDHxlFVWqho/O0ysfX0A2UZExBl1fSovhQg+7kt4zoqPHU7XTqNu33K8rB/nu\nCaEqaJXqpDNQCnnBUFA5enh/fU+bAWQxvwrkK61QFajlP3/babk9mnypIJBqIB8I\ncBYNlZi4ZJGmaVvwVEJQS+0XyQKBgQDBq3CVu0JJOrYjSJgRl+tCR59khJa62i9i\nOAUAAD8J0Xjfy2IgEiF83ohRAuw/FV17rADDXMQ+Sx48MVivvKKRwqF5VyHUjC4T\n9RYVGAaFF3uJFreV8sfUmA6/9YAMVyidbGbOyKJUg3/odaJNYPe3DX382MGbRG0J\nDvmKQeKc1QKBgQCZHNsFT0Oxj390GTXW/oLVERjHr0DJ3AHGdrx/AJ0MjSwXwJuS\nCWiy71Wauv/pf8vqEc1gguAhZ3mrEGLV2HDJ/Gkcb03TB+LN3OibT+Y+GaTnVkx0\nKQ3FHx7GBG9AmIw/bKX5jXqq6yDFdJk5T+MI4lQKsakO9azj9airKetdOQKBgCCA\n3GFUzzgpEV50lYkGXSZ/jMG6+u0bJy6txjEM2YeVT1sH8Ez/nf0t/+TQv8OKm2jh\nIjOngwwNYWKqyX6dAw/BgYYy2GuqpyUUUgNyR83YdhQ46tDQsTb92iPfWQE5M4jQ\nI6T6yTuz4iiqbXXdG1XufsGLw1qCrmYBzGGm0xiNAoGBAI+gm5s/DU1Vu+vuMzoZ\n9G4WoiKQYNNY7eHjVw324lMiRq4P+aDrStA/DbSskaV/2GLh78Ac0nHtJ4qqHgpH\nGw0EeXeDAHxl8oPoQbTEuAnsF8ZR/hCQDhMtBD2jrVHWXyFBW6lKIP0myHU6+fE8\nuYPGBL+dDfbOiAuT9o4aeDUy\n-----END PRIVATE KEY-----\n",
+  "client_email": "birthday-notifier-32@birthday-notifier-293506.iam.gserviceaccount.com",
+  "client_id": "113504694884845398363",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/birthday-notifier-32%40birthday-notifier-293506.iam.gserviceaccount.com"
+}

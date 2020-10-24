@@ -68,7 +68,7 @@ const getBirthdaysTomorrow = data => {
   })
 }
 
-const sendBirthdayNotifications = async (bot, chatId) => {
+const sendBirthdayNotifications = async (bot, chatId, notifyTomorrowBirthdays = false) => {
   const data = await getDataFromSheet(config.googleSheetId)
   if (data.length < 2) return
 
@@ -79,9 +79,11 @@ const sendBirthdayNotifications = async (bot, chatId) => {
   birthdaysToday.forEach(user => {
     bot.telegram.sendMessage(chatId, getTodayBirthdaysMessage(user))
   })
-  birthdaysTomorrow.forEach(user => {
-    bot.telegram.sendMessage(chatId, getUpcomingBirthdaysMessage(user))
-  })
+  if (notifyTomorrowBirthdays) {
+    birthdaysTomorrow.forEach(user => {
+      bot.telegram.sendMessage(chatId, getUpcomingBirthdaysMessage(user))
+    })
+  }
 }
 
 const readBotGroupsFile = (filePath) => {

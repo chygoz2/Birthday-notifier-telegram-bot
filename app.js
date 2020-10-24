@@ -56,10 +56,10 @@ app.use(bodyParser.json());
 
 // const chatId = "-424777229";
 
-// app.get("/", async function (req, res) {
-//   await sendBirthdayNotifications(bot, chatId);
-//   res.send("OK");
-// });
+app.get("/", async function (req, res) {
+  // await sendBirthdayNotifications(bot, chatId);
+  res.send("OK");
+});
 
 cron.schedule(process.env.CRON_STRING, () => {
   console.log('running cron...')

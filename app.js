@@ -74,7 +74,7 @@ cron.schedule(process.env.CRON_STRING, () => {
 const url = "/";
 
 (() => {
-  cron.schedule("* * * * *", () => {
+  cron.schedule("*/20 * * * *", () => {
     console.log("Keepalive running");
     axios
       .get(url)

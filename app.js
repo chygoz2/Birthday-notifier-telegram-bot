@@ -4,12 +4,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const Telegraf = require("telegraf");
 const cron = require("node-cron");
+const axios = require("axios");
 
 const {
   sendBirthdayNotifications,
   readBotGroupsFile,
   writeBotGroupsFile,
 } = require("./utility");
+const { default: Axios } = require("axios");
 
 const app = express();
 
@@ -62,15 +64,30 @@ app.get("/", async function (req, res) {
 });
 
 cron.schedule(process.env.CRON_STRING, () => {
-  console.log('running cron...')
-  groupsBotIsIn.forEach(async chatId => {
-    await sendBirthdayNotifications(bot, chatId)
-  })
-})
+  console.log("running cron...");
+  groupsBotIsIn.forEach(async (chatId) => {
+    await sendBirthdayNotifications(bot, chatId);
+  });
+});
 
-const port = process.env.PORT || 8080
+// globals
+const url = "/";
+
+(() => {
+  cron.schedule("* * * * *", () => {
+    console.log("Keepalive running");
+    axios
+      .get(url)
+      .then((res) => {
+        console.log(`response-ok: ${res.status}, status: ${res.status}`);
+      })
+      .catch(() => {});
+  });
+})();
+
+const port = process.env.PORT || 8080;
 
 bot.launch();
 app.listen(port, () => {
-  console.log(`App is running on port: ${port}`)
+  console.log(`App is running on port: ${port}`);
 });

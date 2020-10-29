@@ -5,13 +5,15 @@ const bodyParser = require("body-parser");
 const Telegraf = require("telegraf");
 const cron = require("node-cron");
 const axios = require("axios");
+const config = require('./config')
 
 const {
   sendBirthdayNotifications,
   readBotGroupsFile,
   writeBotGroupsFile,
+  getDataFromSheet,
 } = require("./utility");
-const { default: Axios } = require("axios");
+const axios = require("axios");
 
 const app = express();
 
@@ -59,8 +61,20 @@ app.use(bodyParser.json());
 // const chatId = "-424777229";
 
 app.get("/", async function (req, res) {
-  // await sendBirthdayNotifications(bot, chatId);
+  console.log("Endpoint called by cron");
+  await sendBirthdayNotifications(bot, chatId);
   res.send("OK");
+});
+
+app.get("/birthdays", async function (req, res) {
+  const data = await getDataFromSheet(config.googleSheetId)
+  if (data.length < 2) return
+
+  const birthdayIndex = getBirthdayIndex(data[0])
+  const birthdays = getUserBirthdays(data.slice(1), birthdayIndex)
+  res.json({
+    birthdays
+  })
 });
 
 cron.schedule(process.env.CRON_STRING, () => {
@@ -73,17 +87,15 @@ cron.schedule(process.env.CRON_STRING, () => {
 // globals
 const url = "/";
 
-(() => {
-  cron.schedule("*/20 * * * *", () => {
-    console.log("Keepalive running");
-    axios
-      .get(url)
-      .then((res) => {
-        console.log(`response-ok: ${res.status}, status: ${res.status}`);
-      })
-      .catch(() => {});
-  });
-})();
+cron.schedule("*/20 * * * *", () => {
+  console.log("Keepalive running");
+  axios
+    .get(url)
+    .then((res) => {
+      console.log(`response-ok: ${res.status}, status: ${res.status}`);
+    })
+    .catch(() => {});
+});
 
 const port = process.env.PORT || 8080;
 

@@ -12,8 +12,9 @@ const {
   readBotGroupsFile,
   writeBotGroupsFile,
   getDataFromSheet,
+  getBirthdayIndex,
+  getUserBirthdays
 } = require("./utility");
-const axios = require("axios");
 
 const app = express();
 

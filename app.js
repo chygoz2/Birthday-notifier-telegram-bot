@@ -63,7 +63,6 @@ app.use(bodyParser.json());
 
 app.get("/", async function (req, res) {
   console.log("Endpoint called by cron");
-  await sendBirthdayNotifications(bot, chatId);
   res.send("OK");
 });
 

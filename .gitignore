@@ -1,3 +1,4 @@
 .env
 node_modules
-birthday-notifier.json
+./birthday-notifier.json
+./groupsBotIsIn.json

@@ -5,36 +5,38 @@ const bodyParser = require("body-parser");
 const Telegraf = require("telegraf");
 const cron = require("node-cron");
 const axios = require("axios");
-const config = require('./config')
+const config = require("./config");
+const sequelize = require("./databaseConnection");
+const ChatGroup = require("./models/ChatGroup");
 
 const {
   sendBirthdayNotifications,
-  readBotGroupsFile,
   writeBotGroupsFile,
   getDataFromSheet,
   getBirthdayIndex,
-  getUserBirthdays
+  getUserBirthdays,
 } = require("./utility");
+const { findAll } = require("./models/ChatGroup");
 
 const app = express();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const BOT_USERNAME = "BirthdayNotifierBot";
 
-let savedGroups = readBotGroupsFile("./groupsBotIsIn.json");
-let groupsBotIsIn = [...savedGroups];
-
 bot.on("new_chat_members", (ctx) => {
   const members = ctx.message.new_chat_members;
-  members.forEach((element) => {
+  members.forEach(async (element) => {
     if (element.username == BOT_USERNAME) {
       const chatId = ctx.message.chat.id;
-      if (
-        chatId.toString().startsWith("-") &&
-        groupsBotIsIn.indexOf(chatId) < 0
-      ) {
-        groupsBotIsIn.push(chatId);
-        writeBotGroupsFile("./groupsBotIsIn.json", groupsBotIsIn);
+      let groupsBotIsIn = await ChatGroup.findAll({
+        where: {
+          id: chatId,
+        },
+      });
+      if (chatId.toString().startsWith("-") && groupsBotIsIn.length < 1) {
+        const chatGroup = await ChatGroup.create({
+          id: chatId,
+        });
         bot.telegram.sendMessage(
           chatId,
           "Thank you for adding me to this group. \n\n I can now send birthday alerts here"
@@ -44,15 +46,22 @@ bot.on("new_chat_members", (ctx) => {
   });
 });
 
-bot.on("left_chat_member", (ctx) => {
+bot.on("left_chat_member", async (ctx) => {
   const member = ctx.message.left_chat_member;
   if (member.username == BOT_USERNAME) {
     const chatId = ctx.message.chat.id;
-    let indexOfGroup = groupsBotIsIn.indexOf(chatId);
-    if (indexOfGroup > -1) {
-      groupsBotIsIn.splice(indexOfGroup, 1);
+    let groupsBotIsIn = await ChatGroup.findAll({
+      where: {
+        id: chatId,
+      },
+    });
+    if (groupsBotIsIn.length > 0) {
+      await ChatGroup.destroy({
+        where: {
+          id: chatId,
+        },
+      });
     }
-    writeBotGroupsFile("./groupsBotIsIn.json", groupsBotIsIn);
   }
 });
 
@@ -67,20 +76,43 @@ app.get("/", async function (req, res) {
 });
 
 app.get("/birthdays", async function (req, res) {
-  const data = await getDataFromSheet(config.googleSheetId)
-  if (data.length < 2) return
+  const data = await getDataFromSheet(config.googleSheetId);
+  if (data.length < 2) return;
 
-  const birthdayIndex = getBirthdayIndex(data[0])
-  const birthdays = getUserBirthdays(data.slice(1), birthdayIndex)
+  const birthdayIndex = getBirthdayIndex(data[0]);
+  const birthdays = getUserBirthdays(data.slice(1), birthdayIndex);
   res.json({
-    birthdays
-  })
+    birthdays,
+  });
 });
 
-cron.schedule(process.env.CRON_STRING, () => {
+app.get("/connect", async function (req, res) {
+  try {
+    await sequelize.authenticate();
+    res.send("Connection has been established successfully.");
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+app.get("/notify", async function (req, res) {
+  try {
+    await sequelize.authenticate();
+    const groupsBotIsIn = await ChatGroup.findAll();
+    groupsBotIsIn.forEach(async (group) => {
+      await bot.telegram.sendMessage(group.id, 'Testing group messaging')
+    });
+    res.send('Notified groups')
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+cron.schedule(process.env.CRON_STRING, async () => {
   console.log("running cron...");
-  groupsBotIsIn.forEach(async (chatId) => {
-    await sendBirthdayNotifications(bot, chatId);
+  const groupsBotIsIn = await ChatGroup.findAll();
+  groupsBotIsIn.forEach(async (group) => {
+    await sendBirthdayNotifications(bot, group.id);
   });
 });
 
